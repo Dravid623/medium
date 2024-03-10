@@ -1,8 +1,8 @@
 import { Appbar } from "../components/Appbar";
 import { Avatar } from "../components/BlogCard";
-import { Blog } from "../hooks/index";
+import { Blog } from "../hooks/index"; // need to fix type error `export const FullBlog = ({ blog }: { blog: Blog }) => {`
 
-export const FullBlog = ({ blog }: { blog: Blog }) => {
+export const FullBlog = ({ blog }: { blog: any }) => {
     return (
         <div>
             <Appbar />

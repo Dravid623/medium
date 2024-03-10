@@ -5,13 +5,13 @@ import { BACKEND_URL } from "../config"
 export interface Blog{
     "content": string,
             "title": string,
-            "id": number,
+            "id": string,
             "author": {
                 "name": string
             }
 }
 
-export const useBlog = ({id}:{id:string | number})=>{
+export const useBlog = ({id}:{id:string})=>{
     const [loading, setLoading] = useState(true)
     const [blog, setBlog] = useState<Blog>()
 
