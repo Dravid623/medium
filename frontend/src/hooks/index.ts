@@ -11,9 +11,20 @@ export interface Blog{
             }
 }
 
+// TODO : Remove this defaultBlog, it is just to bypass type check
+//  <FullBlog blog = {blog} /> in Blog.ts and const [blog, setBlog] = useState<Blog>(defaultBlog) in index.ts
+const defaultBlog: Blog = {
+    "content": "content of blog",
+            "title": "Title of blog",
+            "id": "Id of blog",
+            "author": {
+                "name": "Name of author"
+            }
+};
+
 export const useBlog = ({id}:{id:string})=>{
     const [loading, setLoading] = useState(true)
-    const [blog, setBlog] = useState<Blog>()
+    const [blog, setBlog] = useState<Blog>(defaultBlog)
 
     useEffect(()=>{
         axios.get(`${BACKEND_URL}/api/v1/blog/${id}`,{
