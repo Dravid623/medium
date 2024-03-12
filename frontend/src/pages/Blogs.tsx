@@ -1,10 +1,12 @@
+import { useState } from "react";
 import { Appbar } from "../components/Appbar"
 import { BlogCard } from "../components/BlogCard"
 import { BlogSkeleton } from "../components/BlogSkeleton";
 import { useBlogs } from "../hooks"
 
 export const Blogs = ()=>{
-    const {loading, blogs} = useBlogs();
+    const [pageNumber, setPageNumber] = useState(1)
+    const {loading, blogs} = useBlogs(pageNumber);
     
     if(loading){
         return <div>
@@ -33,6 +35,9 @@ export const Blogs = ()=>{
         publishedDate={"2 march 2003"}/>)}
 
     </div>
+    <div>
+        <button onClick={()=>{setPageNumber((pageNumber+1))}}>Load More</button>
     </div> 
+    </div>
     </div>
 }

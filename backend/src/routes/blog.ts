@@ -12,6 +12,31 @@ export const blogRouter = new Hono<{
   }
 }>()
 
+blogRouter.get('/bulk/:pageNumber', async(c) => {
+    const {pageNumber} = await c.req.param();
+    const pageToSkip = parseInt(pageNumber, 10);
+    const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+}).$extends(withAccelerate())
+const posts = await prisma.post.findMany({
+    skip: (pageToSkip - 1) * 10,
+    take: 10,
+    select: {
+        content: true,
+        title: true,
+        id: true,
+        author: {
+            select: {
+                name:true,
+            }
+        }
+    }
+});
+return c.json({
+    posts
+})
+})
+
 blogRouter.use("/*", async(c,next)=>{
     const authHeader = c.req.header('authorization') || ""
 try {
@@ -70,27 +95,6 @@ return c.json({
 })
 })
 
-// todo : add pagination here 
-blogRouter.get('/bulk', async(c) => {
-    const prisma = new PrismaClient({
-    datasourceUrl: c.env.DATABASE_URL,
-}).$extends(withAccelerate())
-const posts = await prisma.post.findMany({
-    select: {
-        content: true,
-        title: true,
-        id: true,
-        author: {
-            select: {
-                name:true,
-            }
-        }
-    }
-});
-return c.json({
-    posts
-})
-})
 
 blogRouter.get('/:id', async(c) => {
    const id = await c.req.param("id");
