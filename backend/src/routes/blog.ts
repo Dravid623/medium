@@ -37,6 +37,39 @@ return c.json({
 })
 })
 
+blogRouter.get('/:id', async(c) => {
+   const id = await c.req.param("id");
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+}).$extends(withAccelerate())
+    try {
+        const post = await prisma.post.findFirst({
+            where: {
+                id: id
+            },
+            select: {
+                id:true,
+                title: true,
+                content:true,
+                author: {
+                    select: {
+                        name: true
+                    }
+                }
+            }
+    })
+    return c.json({
+    post
+})
+    } catch (error) {
+        c.status(411)
+        return c.json({
+            message: "error while featching"
+        })
+    }
+
+})
+
 blogRouter.use("/*", async(c,next)=>{
     const authHeader = c.req.header('authorization') || ""
 try {
@@ -96,36 +129,5 @@ return c.json({
 })
 
 
-blogRouter.get('/:id', async(c) => {
-   const id = await c.req.param("id");
-  const prisma = new PrismaClient({
-    datasourceUrl: c.env.DATABASE_URL,
-}).$extends(withAccelerate())
-    try {
-        const post = await prisma.post.findFirst({
-            where: {
-                id: id
-            },
-            select: {
-                id:true,
-                title: true,
-                content:true,
-                author: {
-                    select: {
-                        name: true
-                    }
-                }
-            }
-    })
-    return c.json({
-    post
-})
-    } catch (error) {
-        c.status(411)
-        return c.json({
-            message: "error while featching"
-        })
-    }
 
-})
 
