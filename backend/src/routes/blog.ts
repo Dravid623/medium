@@ -25,6 +25,9 @@ const posts = await prisma.post.findMany({
         content: true,
         title: true,
         id: true,
+        createdAt: true,
+        updatedAt: true,
+        publishedAt: true,
         author: {
             select: {
                 name:true,
@@ -51,6 +54,9 @@ blogRouter.get('/:id', async(c) => {
                 id:true,
                 title: true,
                 content:true,
+                createdAt: true,
+                updatedAt: true,
+                publishedAt: true,
                 author: {
                     select: {
                         name: true
@@ -101,6 +107,9 @@ blogRouter.post('/', async(c) => {
     data: {
         title: body.title,
         content: body.content,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        publishedAt: new Date(),
         authorId: authorId
     }
 })
@@ -121,6 +130,8 @@ blogRouter.put('/', async(c) => {
     data: {
         title: body.title,
         content: body.content,
+        updatedAt: new Date(),
+        publishedAt: new Date(),
     }
 })
 return c.json({

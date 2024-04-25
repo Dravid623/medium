@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { BACKEND_URL } from "../config"
 
 export interface Blog{
+    createdAt: string
     "content": string,
             "title": string,
             "id": string,
@@ -15,11 +16,12 @@ export interface Blog{
 //  <FullBlog blog = {blog} /> in Blog.ts and const [blog, setBlog] = useState<Blog>(defaultBlog) in index.ts
 const defaultBlog: Blog = {
     "content": "content of blog",
-            "title": "Title of blog",
-            "id": "Id of blog",
-            "author": {
-                "name": "Name of author"
-            }
+    "title": "Title of blog",
+    "id": "Id of blog",
+    "author": {
+        "name": "Name of author"
+    },
+    createdAt: ""
 };
 
 export const useBlog = ({id}:{id:string})=>{
@@ -54,7 +56,7 @@ export const useBlogs = (pageNumber:number)=>{
             }
         })
         .then(response => {
-            setBlogs(response.data.posts);
+            setBlogs(response.data.posts.reverse());
             setLoading(false);
         })
     },[pageNumber])

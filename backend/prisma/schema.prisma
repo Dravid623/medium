@@ -26,6 +26,9 @@ model Post {
   title     String
   content   String
   published Boolean  @default(false)
+  createdAt   DateTime @default(now()) // Track when the post was created
+  updatedAt   DateTime @default(now())      // Track when the post was last updated
+  publishedAt DateTime?                 // Track when the post was published (nullable)
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
 }
