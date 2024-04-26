@@ -5,7 +5,7 @@ import { BlogSkeleton } from "../components/BlogSkeleton";
 import { useBlogs } from "../hooks"
 
 export const Blogs = ()=>{
-    const [pageNumber, setPageNumber] = useState(1)
+    const [pageNumber, setPageNumber] = useState(0)
     const {loading, blogs} = useBlogs(pageNumber);
     
     if(loading){

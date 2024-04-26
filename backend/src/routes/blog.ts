@@ -19,7 +19,7 @@ blogRouter.get('/bulk/:pageNumber', async(c) => {
     datasourceUrl: c.env.DATABASE_URL,
 }).$extends(withAccelerate())
 const posts = await prisma.post.findMany({
-    skip: (pageToSkip - 1) * 10,
+    skip: pageToSkip * 10,
     take: 10,
     select: {
         content: true,
@@ -33,6 +33,9 @@ const posts = await prisma.post.findMany({
                 name:true,
             }
         }
+    },
+    orderBy: {
+    createdAt: 'desc',
     }
 });
 return c.json({

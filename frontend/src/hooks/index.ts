@@ -56,7 +56,7 @@ export const useBlogs = (pageNumber:number)=>{
             }
         })
         .then(response => {
-            setBlogs(response.data.posts.reverse());
+            setBlogs(response.data.posts);
             setLoading(false);
         })
     },[pageNumber])
